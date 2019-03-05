@@ -1,0 +1,144 @@
+<style>
+  * {
+    font-family: 'Noto Sans Korea', sans-serif
+  }
+
+  .clearfix:before {
+    clear: both;
+    display: inline-block;
+    content: '';
+  }
+
+  .form-card {
+    padding: 20px;
+    border-top: 1px solid #e6e6e6;
+  }
+
+  /*//////////
+    form row style
+   ///////////*/
+  div[class^="form-row"] {
+    width: 100%;
+  }
+
+  div[class^="form-row-"] label {
+    font-size: 14px;
+  }
+
+  /* form column style */
+  div[class^="form-col"] {
+    float: left;
+    margin: 5px 0;
+  }
+
+  .form-label {
+    width: 120px;
+  }
+
+  .input-single-text{
+    width:565px;
+  }
+
+  /* ////////////////
+    label style
+  /////////////////*/
+
+  label[class^='label-single']{
+    width:100px;
+  }
+
+  label[class^='label-multi']{
+    width:100px;
+  }
+
+  .form-button {
+    float: right;
+  }
+
+  .form-label-radio {
+    width: 57px;
+    text-align: left;
+  }
+
+  .form-col:nth-child(n+2) {
+    border-left: 1px solid #e6e6e6;
+    margin-left: 10px;
+    padding-left: 10px;
+  }
+
+  .form-col:nth-child(1) .item-checkbox{
+    margin-right:5px;
+  }
+  /* ///////////////////
+      input style
+  ///////////////// */
+
+  input {
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    padding: 5px;
+  }
+
+  .input-multi-checkbox{
+    display: inline-block;
+    margin: 0 0 0 2px;
+  }
+
+  .input-multi-text{
+    width:220px;
+  }
+
+  .input-multi-date{
+    width: 220px;
+  }
+
+  .input-multi-radio{
+    width: 20px;
+  }
+   /*///////////////////
+      button Style
+   ////////////////////*/
+  button[type="button"] {
+    background-color: #687381;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    height: 30px;
+  }
+
+  button[type="button"]:hover {
+    background-color: #4a525c;
+  }
+
+</style>
+</div>
+<div style="width:800px; margin: 10px auto;">
+  <div class="form-card" ng-repeat="row in formCards">
+    <div class="form-row clearfix" ng-repeat="col in row">
+      <div class="form-col" ng-repeat="item in col">
+        <div class="item-{{item.type}}" ng-if="col.length === 1">
+          <label for="form-row-col-$parent.$index-$index" class="label-single-{{item.type}}">{{item.title}}</label>
+          <input ng-if="item.type != 'radio'" type="{{item.type}}" id="form-row-col-$parent.$index-$index" class="input-single-{{item.type}}" ng-model="item.formData.model" placeholder="{{item.placeholder}}">
+          <span ng-if="item.type == 'radio'">radio multi go!</span>
+        </div>
+        <div class="item-{{item.type}}" ng-if="col.length >= 2">
+          <label for="form-row-col-$parent.$index-$index" class="label-multi-{{item.type}}">{{item.title}}</label>
+          <input ng-if="!item.value" id="form-row-col-$parent.$index-$index" class="input-multi-{{item.type}}" type="{{item.type}}" ng-model="item.formData.model" placeholder="{{item.placeholder}}">
+          <input ng-if="item.value" id="form-row-col-$parent.$index-$index" class="input-multi-{{item.type}}" type="{{item.type}}" ng-model="item.formData.model" placeholder="{{item.placeholder}}" value="{{item.value}}" ng-click="radioClick(item.formData.model, item.value)">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {{transclude().length}}
+  <div class="form-card clearfix">
+    <div class="form-button">
+      <button type="button" ng-click="submit()">save</button>
+    </div>
+  </div>
