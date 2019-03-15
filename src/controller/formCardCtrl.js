@@ -8,88 +8,8 @@
  * Controller of the gshopApp
  */
 
-app.controller('paymentCtrl', function ($http,$scope) {
+app.controller('froCardCtrl', function ($http,$scope) {
   var vm = this;
-  vm.is_cancel = false;
-  var device_id = 'x123456789';
-  console.log("ㅎㅇ");
-  vm.goods_list = [{
-    name: 'BARCODE',
-    pay_code: 123456,
-    type: 'pay',
-    money: 100,
-    payment_info: '',
-    is_cancel: false,
-    is_validation: true
-  },
-    {
-      name: 'POINT',
-      pay_code: 123456,
-      type: 'point',
-      money: 100,
-      payment_info: '',
-      is_cancel: false,
-      is_validation: true
-    }
-  ];
-
-  vm.payment = function (goods) {
-    var params = {
-      device_id: device_id,
-      pay_code: goods.pay_code,
-      pay_type: goods.type,
-      money: goods.money
-    };
-    console.log(params);
-    $http(
-      {
-        method: 'GET',
-        // url: Define.GSHOP_ADMIN_API + apiUrl,
-        url: 'http://localhost:1541/ezentouch',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        params: params
-      }).then(function (response) {
-      goods.payment_info = response.data;
-      if (goods.payment_info.result === "OK") {
-        goods.pay_validation = false;
-        goods.is_cancel = true;
-      } else {
-        goods.pay_validation = true;
-        goods.is_cancel = false;
-      }
-    }).then(function (response) {
-      console.log(response);
-    });
-  };
-
-  vm.payment_cancel = function (goods) {
-    var params = {
-      device_id: device_id,
-      pay_code: goods.pay_code,
-      pay_type: 'pay_cancel',
-      money: goods.money,
-      data_confirm_num: goods.payment_info.data_confirm_num
-    };
-    $http({
-      method: 'GET',
-      // url: Define.GSHOP_ADMIN_API + apiUrl,
-      url: 'http://localhost:1541/ezentouch',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      params: params
-    }).then(function (response) {
-      console.log(response);
-      alert(response.data.data_confirm_num + "결제가 취소되었습니다.");
-      goods.pay_validation = false;
-      goods.is_cancel = false;
-    }).then(function (response) {
-      console.log(response);
-    });
-  };
-
   function initFormItems(){
     //카드는 여러개의 로우로 구성되고
     //로우는 여러개의 컬럼으로 구성된다.
@@ -142,8 +62,5 @@ app.controller('paymentCtrl', function ($http,$scope) {
     row1.push(singleDate);
     row1.push(multiDate);
   }
-  vm.formItems = []; // 폼 갯수
   initFormItems();
-
-
 });
